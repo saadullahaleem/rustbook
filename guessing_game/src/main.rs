@@ -1,29 +1,37 @@
 use std::io;
+use rand::Rng;
 
 fn main() {
     let mut guess = String::new();
-    let mut choice = String::from("y");
+    let mut lives = 4;
 
-    while choice.trim() == "y" {
-        println!("Guess the number!");
+    while lives > 0 {
+
+        let secret_number = rand::thread_rng().gen_range(1..=100);
+
+        println!("Guess the number or press q to quit");
         println!("Please input your guess.");
 
         io::stdin()
             .read_line(&mut guess)
             .expect("Failed to read line");
 
-        println!("You guessed: {}", guess);
+        if guess.trim() == "q" {
+            println!("You quit the game. SAD!");
+            break;
+        }
 
-        println!("Do you want to play again? (y/n)");
-        choice = String::new();
-        io::stdin()
-            .read_line(&mut choice)
-            .expect("Failed to read line");
-
-        if choice.trim() == "y" {
-            println!("You chose to play again! Nice!");
+        if secret_number == guess.trim().parse::<u32>().unwrap() {
+            println!("You guessed the correct number. You win!");
         } else {
-            println!("You chose to quit!, SAD!");
+            lives -= 1;
+            guess = String::new();
+            println!("The correct number is {secret_number}. You did not guess it!");
+            println!("You have {lives} lives left!");
+        }
+
+        if lives == 0 {
+            println!("You have no more lives left! You lose!");
         }
         println!();
     }
