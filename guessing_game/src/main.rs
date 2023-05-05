@@ -8,7 +8,7 @@ fn main() {
 
     while lives > 0 {
 
-        println!("You have {lives} lives left!");
+        println!("You have \x1b[93m{lives}\x1b[0m lives left!");
         println!("Guess the number or press q to quit");
         println!("Please input your guess.");
 
